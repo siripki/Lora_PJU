@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egrotek - PJU Remote Configuration</title>
+    <link rel="icon" href="assets/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="assets/style.min.css">
+    <style>
+        .tab-content,
+        .ip-type {
+            display: none;
+        }
+
+        .tab-content.active,
+        .ip-type.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="bg-gray">
+    <div class="container grid-lg" style="padding: 15px;">
+        <header class="navbar">
+            <section class="navbar-section">
+                <a href="https://egrotek.id" target="blank" style="margin-right: 15px;">
+                    <img src="assets/egrotek.svg" height="25" alt="" style="margin-bottom: -5px;">
+                </a>
+
+            </section>
+            <section class="navbar-center">
+                <!-- centered logo or brand -->
+            </section>
+            <section class="navbar-section">
+                <a href="#logoutModal" class="btn btn-link text-error"><i class="icon icon-shutdown"></i> Logout</a>
+                <div class="modal modal-sm" id="logoutModal">
+                    <a class="modal-overlay" href="#modals-sizes" aria-label="Close"></a>
+                    <div class="modal-container" role="document">
+                        <div class="modal-header">
+                            <a class="btn btn-clear float-right" href="#modals-sizes" aria-label="Close"></a>
+                            <div class="modal-title h5">Logout</div>
+                        </div>
+                        <div class="modal-body">
+                            <div class="content">
+                                <p style="margin: 0;">Are you sure you want to exit ?</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn btn-error" onclick="logoutButton()">Logout</a><a class="btn btn-link"
+                                href="#modals-sizes" aria-label="Close">Close</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </header>
+        <div class="columns">
+            <div class="col-12">
+                <div class="panel" style="background-color: #fefefe; margin-top: 1rem;">
+                    <div class="panel-header text-left bg-error" style="background-color: #34d399 !important;">
+                        <div class="panel-title h2 mt-10">Remote Configuration</div>
+                        <div class="panel-subtitle"> Monitoring PJU</div>
+                    </div>
+                    <nav class="panel-nav">
+                        <ul class="tab tab-block">
+                            <li class="tab-item active"><a href="#tabslora">Lora</a></li>
+                            <!-- <li class="tab-item"><a href="#tabslora">Lora</a></li> -->
+                            <li class="tab-item"><a href="#tabsRemotSettings">Remote Settings</a></li>
+                        </ul>
+                    </nav>
+                    <div class="panel-body">
+                        <div id="tabslora" class="tab-content active">                        
+                            <div class="card mt-2">
+                                <form action="/execute" method="post">
+                                    <div class="card-header">
+                                        <div class="card-title h5">Network Server</div>
+                                        <div class="card-subtitle text-gray">
+                                            Integration with your Lora Network Server.
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="columns">
+                                            <div class="column col-6 col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Device Address<Address></Address></label>
+                                                    <input class="form-input" type="text" name="devAddr"
+                                                        value="%devAddr%" placeholder="Your device Address" required>
+                                                </div>
+                                            </div>
+                                            <div class="column col-6 col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Application Session Key</label>
+                                                    <input class="form-input" type="text" name="appSKey"
+                                                        value="%appSKey%" placeholder="Your Applications Key" required>
+                                                </div>
+                                            </div>
+                                            <div class="column col-6 col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Network Session Key</label>
+                                                    <input class="form-input" type="text" name="nwkSKey"
+                                                        value="%nwkSKey%" placeholder="Your Networks Key" required>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="card-header">
+                                        <div class="card-title h5">Radio Parameter</div>
+                                        <div class="card-subtitle text-gray">
+                                            Manage your device's Lora Radio Parameter.
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="columns">
+                                            <div class="column col-6 col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Class </label>
+                                                    <select id="classTx" class="form-input" name="class_tx" required>
+                                                        <option value="1">CLASS A</option>
+                                                        <option value="3">CLASS C</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="column col-6 col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Spreading Factor dan Bandwidth</label>
+                                                    <select id="sfTx" class="form-input" name="sf_tx" required>
+                                                        <option value="7">SF7BW125</option>
+                                                        <option value="8">SF8BW125</option>
+                                                        <option value="9">SF9BW125</option>
+                                                        <option value="10">SF10BW125</option>
+                                                        <option value="11">SF11BW125</option>
+                                                        <option value="12">SF12BW125</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="column col-6 col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Power TX (dBm) </label>
+                                                    <select id="powerTx" class="form-input" name="power_tx" required>
+                                                        <option value="10">10 dBm</option>
+                                                        <option value="15">15 dBm</option>
+                                                        <option value="20">20 dBm</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="column col-6 col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Channel </label>
+                                                    <select id="channelTx" class="form-input" name="channel_tx" required>
+                                                        <option value="10">MULTI</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="column col-6 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Uplink Interval (Minute)</label>
+                                                    <input class="form-input" type="number" name="interval_uplink" value="%interval_uplink%">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-right">
+                                        <button type="submit" class="btn btn-primary"><i class="icon icon-check"></i>
+                                            Upload</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        
+                        <div id="tabsRemotSettings" class="tab-content">
+                            <div class="card mt-2">
+                                <form action="/execute" method="post">
+                                    <div class="card-header">
+                                        <div class="card-title h5">Device Access Point</div>
+                                        <div class="card-subtitle text-gray">
+                                            Manage your device's access points.
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="columns">
+                                            <div class="column col-6 col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">SSID</label>
+                                                    <input class="form-input" type="text" name="ssid_wifi_ap"
+                                                        value="%ssid_wifi_ap%" placeholder="Device WiFi SSID" required>
+                                                </div>
+                                            </div>
+                                            <div class="column col-6 col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Password</label>
+                                                    <input class="form-input" type="text" name="pass_wifi_ap"
+                                                        value="%pass_wifi_ap%" placeholder="Device WiFi Password"
+                                                        required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-right">
+                                        <button type="submit" class="btn btn-primary"><i class="icon icon-check"></i>
+                                            Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card mt-2">
+                                <form action="/execute" method="post">
+                                    <div class="card-header">
+                                        <div class="card-title h5">Authentication</div>
+                                        <div class="card-subtitle text-gray">
+                                            Update your login authentication.
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="columns">
+                                            <div class="column col-6 col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Username</label>
+                                                    <input class="form-input" type="text" name="http_username"
+                                                        value="%http_username%" placeholder=" Username Auth." required>
+                                                </div>
+                                            </div>
+                                            <div class="column col-6 col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Password</label>
+                                                    <input class="form-input" type="password" name="http_password"
+                                                        value="%http_password%" placeholder="Password Auth" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-right">
+                                        <button type="submit" class="btn btn-primary"><i class="icon icon-check"></i>
+                                            Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function setSelect(id, value) {
+            var dd = document.getElementById(id);
+            for (var i = 0; i < dd.options.length; i++) {
+                if (dd.options[i].value == value) {
+                    dd.selectedIndex = i;
+                    break;
+                }
+            }
+        };
+
+        var selected_class = "%class_tx%";
+        var selected_power_tx = "%power_tx%";
+        var selected_sf_tx = "%sf_tx%";
+        var selected_channel_tx = "%channel_tx%";
+
+        setSelect('classTx', selected_class);
+        setSelect('powerTx', selected_power_tx);
+        setSelect('sfTx', selected_sf_tx);
+        setSelect('channelTx', selected_channel_tx);
+    </script>
+    <script src="assets/scripts.js"></script>
+</body>
+
+</html>
